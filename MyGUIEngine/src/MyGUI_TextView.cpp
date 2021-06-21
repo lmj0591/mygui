@@ -40,7 +40,7 @@ namespace MyGUI
 		{
 		}
 
-		void set(size_t _position, UString::utf32string::const_iterator& _space_point, size_t _count, float _width)
+		void set(size_t _position, const UString::utf32string::const_iterator& _space_point, size_t _count, float _width)
 		{
 			position = _position;
 			space_point = _space_point;
@@ -208,11 +208,7 @@ namespace MyGUI
 			if (info == nullptr)
 				continue;
 
-			if (FontCodeType::Space == character)
-			{
-				roll_back.set(line_info.symbols.size(), index, count, width);
-			}
-			else if (FontCodeType::Tab == character)
+			if (FontCodeType::Space == character || FontCodeType::Tab == character)
 			{
 				roll_back.set(line_info.symbols.size(), index, count, width);
 			}

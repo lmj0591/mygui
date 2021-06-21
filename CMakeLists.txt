@@ -10,6 +10,16 @@ cmake_policy(SET CMP0003 NEW)
 cmake_policy(SET CMP0011 NEW)
 cmake_policy(SET CMP0048 OLD)
 
+# for link time optimization, remove if cmake version is >= 3.9
+if(POLICY CMP0069) # LTO
+  cmake_policy(SET CMP0069 NEW)
+endif()
+
+# for position-independent executable, remove if cmake version is >= 3.14
+if(POLICY CMP0083)
+  cmake_policy(SET CMP0083 NEW)
+endif()
+
 project(MYGUI)
 
 # Include necessary submodules
@@ -22,6 +32,7 @@ include(CMakeDependentOption)
 include(MacroLogFeature)
 include(MyGUIConfigTargets)
 include(PreprocessorUtils)
+include(GNUInstallDirs)
 set(MYGUI_TEMPLATES_DIR "${MYGUI_SOURCE_DIR}/CMake/Templates")
 
 SET(CMAKE_CXX_STANDARD 11)
@@ -233,10 +244,8 @@ if (MSVC)
 	endif ()
 	# disable: warning C4100: '***' : unreferenced formal parameter
 	add_definitions(/wd4100)
-	# disable: warning C4127: conditional expression is constant
-	add_definitions(/wd4127)
-	# disable: warning C4512: '***' : assignment operator could not be generated
-	add_definitions(/wd4512)
+
+	# TODO: move to Tools only
 	# disable: warning C4275: non dll-interface class '***' used as base for dll-interface clas '***'
 	add_definitions(/wd4275)
 
